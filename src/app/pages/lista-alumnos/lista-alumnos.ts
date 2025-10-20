@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './lista-alumnos.html',
   styleUrl: './lista-alumnos.css'
 })
+
 export class ListaAlumnosComponent {
   
   alumnos = [
@@ -16,5 +17,13 @@ export class ListaAlumnosComponent {
 
   cambiarestado(alumno: any) {
     alumno.activo = !alumno.activo;
+  }
+
+  eliminarAlumno(indice: number) {
+    this.alumnos.splice(indice, 1);
+  }
+
+  editarAlumno(indice: number) {
+    const nuevoNombre = prompt('Ingrese el nuevo nombre del alumno:', this.alumnos[indice].nombre);
   }
 }

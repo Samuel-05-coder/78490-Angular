@@ -1,3 +1,13 @@
 <h2>Lista de Alumnos</h2>
 
+<div class="alumnos-container">
+  <app-alumno-card
+    *ngFor="let alumno of alumnos"
+    [alumno]="alumno"
+    (eliminarAlumno)="eliminarAlumno($event)"
+    (editarAlumno)="editarAlumno($event)">
+  </app-alumno-card>
+</div>
 
+
+ 

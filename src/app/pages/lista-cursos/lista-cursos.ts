@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-listas-cursos',
+  selector: 'app-lista-cursos',
   standalone: false,
-  templateUrl: './listas-cursos.html',
-  styleUrl: './listas-cursos.css'
+  templateUrl: './lista-cursos.html',
+  styleUrl: './lista-cursos.css'
 })
 export class ListaCursosComponent {
 
