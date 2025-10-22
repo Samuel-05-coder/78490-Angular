@@ -1,6 +1,6 @@
 <div class="alumno-card">
-  <h3>{{ alumno.nombre }} {{ alumno.apellido }}</h3>
-  <p>Edad: {{ alumno.edad }}</p>
-  <p>Email: {{ alumno.email }}</p>
-  <button (click)="eliminarAlumno.emit(alumno.id)">Borrar</button>
+  <h3 class="nombre-alumno">{{ alumno.nombre }} {{ alumno.apellido }}</h3>
+  <p class="edad-alumno">Edad: {{ alumno.edad }}</p>
+  <p class="email-alumno">Email: {{ alumno.email }}</p>
+  <button class="boton-borrar" (click)="eliminarAlumno.emit(alumno.id)">Borrar</button>
 </div>

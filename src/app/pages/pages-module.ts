@@ -9,7 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AlumnoCardComponent } from './lista-alumnos/alumno-card/alumno-card';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,13 +20,15 @@ import { MatButtonModule } from '@angular/material/button';
     AlumnoCardComponent
   ],
 
+
   imports: [
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ]
 })
 export class PagesModule { }

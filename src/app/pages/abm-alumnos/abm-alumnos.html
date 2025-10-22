@@ -1,1 +1,35 @@
-<h2>Agregar Alumnnos</h2>
+<h2>Gestión de Alumnos</h2>
+
+<form [formGroup]="alumnoForm" (ngSubmit)="agregarAlumno()" class="formulario">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" placeholder="Nombre del alumno">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Apellido</mat-label>
+    <input matInput formControlName="apellido" placeholder="Apellido del alumno">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="Correo electrónico">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Agregar Alumno</button>
+</form>
+
+<hr>
+
+<div class="lista-alumnos">
+  <h3>Lista de Alumnos</h3>
+  <mat-card *ngFor="let alumno of alumnos; let i = index" class="alumno-card">
+    <p><strong>{{ alumno.nombre }} {{ alumno.apellido }}</strong></p>
+    <p>{{ alumno.email }}</p>
+
+    <div class="acciones">
+      <button mat-raised-button color="accent" (click)="editarAlumno(i)">Editar</button>
+      <button mat-raised-button color="warn" (click)="eliminarAlumno(i)">Eliminar</button>
+    </div>
+  </mat-card>
+</div>

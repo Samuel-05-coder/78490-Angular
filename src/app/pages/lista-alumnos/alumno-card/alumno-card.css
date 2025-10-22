@@ -1,6 +1,7 @@
 .alumno-card {
-  width: 280px;
+  width: 750px;
   min-height: 180px;
+  padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -11,21 +12,21 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* --- Título del alumno --- */
+
+
+
 mat-card-title {
   font-size: 1.3rem;
   color: #333;
   font-weight: 600;
 }
 
-/* --- Contenido del alumno --- */
 mat-card-content {
   font-size: 0.95rem;
   color: #555;
   margin-top: 8px;
 }
 
-/* --- Botones dentro de la tarjeta --- */
 mat-card-actions {
   display: flex;
   justify-content: space-between;
@@ -35,4 +36,12 @@ mat-card-actions {
 boton-editar {
   font-weight: 500;
   text-transform: none;
+}
+
+
+@media (max-width: 950px) {
+  .alumno-card {
+  width: 300px;
+  min-height: 180px;
+  }
 }

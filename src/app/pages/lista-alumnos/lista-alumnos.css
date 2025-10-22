@@ -1,5 +1,20 @@
+.input-busqueda {
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 .alumnos-container {
-    display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.alumnos-container {
+  display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
@@ -17,8 +32,8 @@ h2 {
 }
 
 .no-alumnos {
-    text-align: center;
-    color: #777;
-    font-size: 1.1rem;
-    margin-top: 40px;
+  text-align: center;
+  color: #777;
+  font-size: 1.1rem;
+  margin-top: 40px;
 }

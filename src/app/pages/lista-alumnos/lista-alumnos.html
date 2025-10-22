@@ -1,5 +1,7 @@
 <h2>Lista de Alumnos</h2>
 
+<input type="text" placeholder="Buscar alumno..." [(ngModel)]="filtro" class="input-busqueda"/>
+
 <div class="alumnos-container">
   <app-alumno-card
     *ngFor="let alumno of alumnos"
@@ -8,6 +10,3 @@
     (editarAlumno)="editarAlumno($event)">
   </app-alumno-card>
 </div>
-
-
- 

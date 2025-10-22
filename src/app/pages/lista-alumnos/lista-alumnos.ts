@@ -8,11 +8,12 @@ import { Component } from '@angular/core';
 })
 
 export class ListaAlumnosComponent {
+  filtro: string='';
   
   alumnos = [
-    { nombre: 'Juan Pérez', edad: 20, curso: 'Matemáticas' },
-    { nombre: 'María Gómez', edad: 22, curso: 'Física' },
-    { nombre: 'Luis Rodríguez', edad: 21, curso: 'Química' }
+    { nombre: 'Juan Pérez', edad: 20, email: 'juan@gmail.com' },
+    { nombre: 'María Gómez', edad: 22, email: 'maria@gmail.com' },
+    { nombre: 'Luis Rodríguez', edad: 21, email: 'luis@gmail.com' }
   ];
 
   cambiarestado(alumno: any) {
