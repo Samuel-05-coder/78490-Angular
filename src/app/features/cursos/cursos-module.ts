@@ -18,6 +18,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    ListaCursosComponent,
+    AbmCursosComponent
   ],
   
   imports: [

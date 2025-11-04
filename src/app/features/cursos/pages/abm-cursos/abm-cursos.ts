@@ -6,9 +6,11 @@ import { CursosService, Curso } from '../../../../core/services/cursos';
 @Component({
   selector: 'app-abm-cursos',
   templateUrl: './abm-cursos.html',
-  styleUrls: ['./abm-cursos.css']
+  styleUrls: ['./abm-cursos.css'],
+  standalone: false,
 })
 export class AbmCursosComponent {
+  abmcursos: Curso[] = [];
   cursoForm: FormGroup;
   editando = false;
   cursoId!: number;

@@ -12,10 +12,21 @@ export class ListaAlumnosComponent implements OnInit {
   alumnos: Alumno[] = [];
   columnas = ['id', 'nombre', 'apellido', 'email', 'activo', 'acciones'];
 
-  constructor(private alumnosService: AlumnosService, private router: Router) {}
+  constructor(
+    private alumnosService: AlumnosService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.cargarAlumnos();
+  }
+
+  cargarAlumnos(): void {
     this.alumnos = this.alumnosService.obtenerAlumnos();
+  }
+
+  nuevoAlumno(): void {
+    this.router.navigate(['/alumnos/nuevo']);
   }
 
   editarAlumno(alumno: Alumno): void {
@@ -25,7 +36,7 @@ export class ListaAlumnosComponent implements OnInit {
   eliminarAlumno(id: number): void {
     if (confirm('¿Seguro que deseas eliminar este alumno?')) {
       this.alumnosService.eliminarAlumno(id);
-      this.alumnos = this.alumnosService.obtenerAlumnos();
+      this.cargarAlumnos();
     }
   }
 }

@@ -36,4 +36,3 @@ const routes: Routes = [
 })
 
 export class AlumnosModule {}
-

@@ -11,7 +11,8 @@ import { AlumnosService, Alumno } from '../../../../../core/services/alumnos';
 })
 export class AbmAlumnosComponent implements OnInit {
   form: FormGroup;
-  idAlumno: number | null = null;
+  idAlumno?: number;
+  editando = false;
 
   constructor(
     private fb: FormBuilder,
@@ -30,22 +31,23 @@ export class AbmAlumnosComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      const alumno = this.alumnosService.obtenerAlumnoPorId(+id);
-      if (alumno) {
-        this.idAlumno = alumno.id;
-        this.form.patchValue(alumno);
-      }
+      this.editando = true;
+      this.idAlumno = +id;
+      const alumno = this.alumnosService.obtenerAlumnoPorId(this.idAlumno);
+      if (alumno) this.form.patchValue(alumno);
     }
   }
 
   guardar(): void {
     if (this.form.invalid) return;
-    const data = this.form.value;
-    if (this.idAlumno) {
-      this.alumnosService.actualizarAlumno({ id: this.idAlumno, ...data });
+    const alumno: Alumno = { ...this.form.value, id: this.idAlumno ?? 0 };
+
+    if (this.editando) {
+      this.alumnosService.actualizarAlumno(alumno);
     } else {
-      this.alumnosService.agregarAlumno(data);
+      this.alumnosService.agregarAlumno(alumno);
     }
+
     this.router.navigate(['/alumnos']);
   }
 

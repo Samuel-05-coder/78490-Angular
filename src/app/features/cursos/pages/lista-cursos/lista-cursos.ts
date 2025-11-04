@@ -8,6 +8,7 @@ import { CursosService, Curso } from '../../../../core/services/cursos';
   styleUrls: ['./lista-cursos.css'],
   standalone: false,
 })
+
 export class ListaCursosComponent {
   cursos: Curso[] = [];
   columnas: string[] = ['id', 'nombre', 'profesor', 'duracion', 'acciones'];
