@@ -1,0 +1,29 @@
+<!--
+<div class="form-container">
+  <h2>{{ editando ? 'Editar Curso' : 'Agregar Curso' }}</h2>
+
+  <form [formGroup]="cursoForm" (ngSubmit)="guardarCurso()">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Nombre del curso</mat-label>
+      <input matInput formControlName="nombre">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Profesor</mat-label>
+      <input matInput formControlName="profesor">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Duración (horas)</mat-label>
+      <input matInput type="number" formControlName="duracion">
+    </mat-form-field>
+
+    <div class="botones">
+      <button mat-raised-button color="primary" type="submit">
+        {{ editando ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button mat-button color="warn" type="button" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
+-->

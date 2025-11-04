@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ListaCursosComponent } from './lista-cursos';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+
+@NgModule({
+  declarations: [ListaCursosComponent],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule
+  ],
+  exports: [ListaCursosComponent]
+})
+export class CursosModule { }
