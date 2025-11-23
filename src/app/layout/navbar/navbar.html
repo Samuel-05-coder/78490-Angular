@@ -4,23 +4,21 @@
     <span>Lista de Alumnos</span>
   </a>
 
-  <a mat-list-item routerLink="/alumnos/nuevo" routerLinkActive="active">
-    <mat-icon>person_add</mat-icon>
-    <span>Agregar Alumno</span>
-  </a>
-
   <a mat-list-item routerLink="/cursos" routerLinkActive="active">
     <mat-icon>list</mat-icon>
     <span>Lista de Cursos</span>
-  </a>
-
-  <a mat-list-item routerLink="/cursos/nuevo" routerLinkActive="active">
-    <mat-icon>library_add</mat-icon>
-    <span>Agregar Curso</span>
   </a>
 
   <a mat-list-item routerLink="/configuracion" routerLinkActive="active">
     <mat-icon>settings</mat-icon>
     <span>Configuración</span>
   </a>
-</mat-nav-list>
+  </mat-nav-list>
+
+  <div class="navbar-footer">
+    <button mat-list-item (click)="logout()" class="logout-button">
+      <mat-icon>logout</mat-icon>
+      <span>Salir</span>
+    </button>
+  </div>
+

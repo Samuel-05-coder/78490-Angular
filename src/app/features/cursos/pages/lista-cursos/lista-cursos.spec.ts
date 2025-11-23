@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {ListaCursosComponent } from './lista-cursos';
+import { ListaCursosComponent } from './lista-cursos';
 
-describe('ListaCursos', () => {
+describe('ListaCursosComponent', () => {
   let component: ListaCursosComponent;
   let fixture: ComponentFixture<ListaCursosComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ListaCursosComponent]
+      declarations: [ListaCursosComponent],
+      imports: [MatTableModule, BrowserAnimationsModule]
     })
     .compileComponents();
 

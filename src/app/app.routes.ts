@@ -1,7 +1,14 @@
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout';
+import { Login } from './auth/pages/login/login';
+import { Register } from './auth/pages/register/register';
+import { AuthGuard } from './auth/services/auth.guard';
 
 export const routes: Routes = [
+  
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+
   {
     path: '',
     component: MainLayoutComponent,
@@ -22,6 +29,7 @@ export const routes: Routes = [
       },
       { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
     ],
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' },
-]
+];

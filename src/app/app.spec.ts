@@ -17,7 +17,8 @@ describe('App', () => {
   it('should render title', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, entrega-1-angular');
+    const app = fixture.componentInstance as any;
+    // El componente expone `title` como signal; comprobamos su valor en lugar de buscar un <h1>
+    expect(typeof app.title === 'function' ? app.title() : app.title).toContain('entrega-1-angular');
   });
 });

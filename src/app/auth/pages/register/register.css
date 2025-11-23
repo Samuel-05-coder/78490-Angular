@@ -1,0 +1,21 @@
+.register-container {
+  max-width: 360px;
+  margin: 24px auto;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+.register-container label {
+  display: block;
+  margin-bottom: 4px;
+}
+.register-container input {
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 12px;
+}
+.register-container button {
+  padding: 8px 12px;
+}
+.hint { margin-top: 10px; }
+.error { color: #b00020; margin-top: 8px; }
