@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as AuthActions from '../../store/auth.actions';
-import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
+import { AuthFacade } from '../../auth.facade';
 
 
 @Component({
@@ -21,13 +19,13 @@ export class Login {
   error = '';
   loading = false;
 
-  constructor(private store: Store, private router: Router) {
-    this.store.select(selectAuthError).subscribe((e: string | null) => (this.error = e || ''));
-    this.store.select(selectAuthLoading).subscribe((l: boolean) => (this.loading = l));
+  constructor(private facade: AuthFacade, private router: Router) {
+    this.facade.error$.subscribe((e: string | null) => (this.error = e || ''));
+    this.facade.loading$.subscribe((l: boolean) => (this.loading = l));
   }
 
   onSubmit(): void {
     this.error = '';
-    this.store.dispatch(AuthActions.login({ username: this.username, password: this.password }));
+    this.facade.login(this.username, this.password);
   }
 }

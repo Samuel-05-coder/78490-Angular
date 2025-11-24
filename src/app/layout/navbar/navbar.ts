@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as AuthActions from '../../auth/store/auth.actions';
+import { AuthFacade } from '../../auth/auth.facade';
 
 @Component({
   selector: 'app-navbar',
@@ -10,11 +9,10 @@ import * as AuthActions from '../../auth/store/auth.actions';
   styleUrls: ['./navbar.css']
 })
 export class NavbarComponent {
-  constructor(private store: Store, private router: Router) {}
+  constructor(private facade: AuthFacade) {}
 
   logout(): void {
-    this.store.dispatch(AuthActions.logout());
-    this.router.navigate(['/login']);
+    this.facade.logout();
   }
 
 }

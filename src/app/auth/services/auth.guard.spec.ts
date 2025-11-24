@@ -1,27 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, UrlTree } from '@angular/router';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-
+import { of } from 'rxjs';
 import { AuthGuard } from './auth.guard';
-import { selectIsLogged } from '../store/auth.selectors';
+import { AuthFacade } from '../auth.facade';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
-  let store: MockStore; // Retain the store declaration
 
   function setup(isLogged: boolean, urlTree: UrlTree = {} as UrlTree) {
     const routerMock = { createUrlTree: jasmine.createSpy('createUrlTree').and.returnValue(urlTree) } as unknown as Router;
+    const facadeMock = { isLogged$: of(isLogged) } as Partial<AuthFacade> as AuthFacade;
 
     TestBed.configureTestingModule({
-      providers: [
-        AuthGuard,
-        provideMockStore({ initialState: { auth: { user: isLogged ? { username: 'u' } : null, loading: false, error: null } }}), // Adjusted to include store initialization
-        { provide: Router, useValue: routerMock }
-      ]
+      providers: [AuthGuard, { provide: AuthFacade, useValue: facadeMock }, { provide: Router, useValue: routerMock }]
     });
 
     guard = TestBed.inject(AuthGuard);
-    store = TestBed.inject(MockStore); // Retain the store injection
     return { routerMock };
   }
 

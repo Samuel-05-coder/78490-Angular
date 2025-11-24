@@ -5,22 +5,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
 import { NavbarComponent } from './navbar';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { AuthFacade } from '../../auth/auth.facade';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
-  let mockStoreDispatch: jasmine.Spy;
+  let facadeSpy: jasmine.SpyObj<AuthFacade>;
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+    facadeSpy = jasmine.createSpyObj('AuthFacade', ['logout']);
 
     await TestBed.configureTestingModule({
       declarations: [NavbarComponent],
       imports: [MatListModule, MatIconModule, BrowserAnimationsModule],
       providers: [
-        provideMockStore({ initialState: { auth: { user: null, loading: false, error: null } } }),
+        { provide: AuthFacade, useValue: facadeSpy },
         { provide: Router, useValue: routerSpy }
       ]
     })
@@ -28,8 +29,6 @@ describe('NavbarComponent', () => {
 
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
-    const store = TestBed.inject(MockStore);
-    mockStoreDispatch = spyOn(store, 'dispatch');
     fixture.detectChanges();
   });
 
@@ -39,7 +38,6 @@ describe('NavbarComponent', () => {
 
   it('dispatches logout and navigates to /login on logout()', () => {
     component.logout();
-    expect(mockStoreDispatch).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/login']);
+    expect(facadeSpy.logout).toHaveBeenCalled();
   });
 });

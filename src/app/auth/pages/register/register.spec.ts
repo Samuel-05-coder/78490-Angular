@@ -3,7 +3,8 @@ import { Register } from './register';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
+import { AuthFacade } from '../../auth.facade';
 
 describe('Register Component', () => {
   let fixture: ComponentFixture<Register>;
@@ -12,16 +13,21 @@ describe('Register Component', () => {
   let router: Router;
 
   beforeEach(async () => {
+    const mockFacade = {
+      error$: of(null),
+      loading$: of(false),
+      register: jasmine.createSpy('register')
+    } as Partial<AuthFacade> as AuthFacade;
+
     await TestBed.configureTestingModule({
       imports: [Register, RouterTestingModule, FormsModule],
-      providers: [provideMockStore({ initialState: { auth: { user: null, loading: false, error: null } } })],
+      providers: [{ provide: AuthFacade, useValue: mockFacade }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Register);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    const store = TestBed.inject(MockStore);
-    mockStoreDispatch = spyOn(store, 'dispatch');
+    mockStoreDispatch = (mockFacade.register as jasmine.Spy);
     fixture.detectChanges();
   });
 

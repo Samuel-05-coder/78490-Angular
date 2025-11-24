@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import * as AuthActions from '../../store/auth.actions';
-import { selectAuthError, selectAuthLoading } from '../../store/auth.selectors';
-import { AuthService } from '../../services/auth.service';
+import { AuthFacade } from '../../auth.facade';
 
 @Component({
   selector: 'app-register',
@@ -22,9 +19,9 @@ export class Register {
   busy = false;
   error = '';
 
-  constructor(private store: Store, private auth: AuthService, private router: Router) {
-    this.store.select(selectAuthError).subscribe((e: string | null) => (this.error = e || ''));
-    this.store.select(selectAuthLoading).subscribe((l: boolean) => (this.busy = l));
+  constructor(private facade: AuthFacade, private router: Router) {
+    this.facade.error$.subscribe((e: string | null) => (this.error = e || ''));
+    this.facade.loading$.subscribe((l: boolean) => (this.busy = l));
   }
 
   onSubmit(): void {
@@ -42,6 +39,6 @@ export class Register {
       return;
     }
     this.busy = true;
-    this.store.dispatch(AuthActions.register({ username: this.username, password: this.password }));
+    this.facade.register(this.username, this.password);
   }
 }

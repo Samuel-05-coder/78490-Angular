@@ -9,7 +9,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MainLayoutComponent } from './main-layout';
 import { NavbarComponent } from '../navbar/navbar';
 import { ToolbarComponent } from '../toolbar/toolbar';
-import { provideMockStore } from '@ngrx/store/testing';
+
+import { of } from 'rxjs';
+import { AuthFacade } from '../../auth/auth.facade';
 
 describe('MainLayoutComponent', () => {
   let component: MainLayoutComponent;
@@ -19,7 +21,9 @@ describe('MainLayoutComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [MainLayoutComponent, NavbarComponent, ToolbarComponent],
       imports: [MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, BrowserAnimationsModule, RouterTestingModule],
-      providers: [provideMockStore({ initialState: { auth: { user: null, loading: false, error: null } } })]
+      providers: [
+        { provide: AuthFacade, useValue: { isLogged$: of(true), user$: of(null), loading$: of(false), error$: of(null) } }
+      ]
     })
     .compileComponents();
 

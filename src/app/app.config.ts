@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { localStorageMetaReducer } from './store/local-storage.meta-reducer';
 
 import { routes } from './app.routes';
 import { authReducer } from './auth/store/auth.reducer';
@@ -13,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore({ auth: authReducer }),
+    provideStore({ auth: authReducer }, { metaReducers: [localStorageMetaReducer] }),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25 })
   ]
