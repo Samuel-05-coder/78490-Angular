@@ -3,6 +3,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -20,9 +22,9 @@ describe('MainLayoutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MainLayoutComponent, NavbarComponent, ToolbarComponent],
-      imports: [MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, BrowserAnimationsModule, RouterTestingModule],
+      imports: [MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatMenuModule, MatDividerModule, BrowserAnimationsModule, RouterTestingModule],
       providers: [
-        { provide: AuthFacade, useValue: { isLogged$: of(true), user$: of(null), loading$: of(false), error$: of(null) } }
+        { provide: AuthFacade, useValue: { isLogged$: of(true), user$: of(null), loading$: of(false), error$: of(null), isAdmin$: of(false) } }
       ]
     })
     .compileComponents();

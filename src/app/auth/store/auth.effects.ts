@@ -19,7 +19,7 @@ export class AuthEffects {
         ofType(AuthActions.login),
         mergeMap(({ username, password }) =>
           this.auth.login(username, password).pipe(
-            map((ok) => (ok ? AuthActions.loginSuccess({ user: { username } }) : AuthActions.loginFailure({ error: 'Credenciales inválidas' }))),
+            map((u) => (u ? AuthActions.loginSuccess({ user: u }) : AuthActions.loginFailure({ error: 'Credenciales inválidas' }))),
             catchError((err) => of(AuthActions.loginFailure({ error: err?.message || 'Error' })))
           )
         )
@@ -31,7 +31,7 @@ export class AuthEffects {
         ofType(AuthActions.register),
         mergeMap(({ username, password }) =>
           this.auth.register(username, password).pipe(
-            map((ok) => (ok ? AuthActions.registerSuccess({ user: { username } }) : AuthActions.registerFailure({ error: 'Usuario existente' }))),
+            map((u) => (u ? AuthActions.registerSuccess({ user: u }) : AuthActions.registerFailure({ error: 'Usuario existente' }))),
             catchError((err) => of(AuthActions.registerFailure({ error: err?.message || 'Error' })))
           )
         )

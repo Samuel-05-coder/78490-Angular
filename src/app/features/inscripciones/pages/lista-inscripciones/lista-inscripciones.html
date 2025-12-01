@@ -1,0 +1,42 @@
+<div class="inscripciones-container">
+  <h2>Inscripciones</h2>
+
+  <div class="form">
+    <label>Alumno</label>
+    <select name="alumno" [(ngModel)]="selectedAlumno" title="Seleccione un alumno">
+      <option [ngValue]="null" disabled>Seleccione</option>
+      <option *ngFor="let a of alumnos" [ngValue]="a.id">{{ a.nombre }} {{ a.apellido }}</option>
+    </select>
+
+    <label>Curso</label>
+    <select name="curso" [(ngModel)]="selectedCurso" title="Seleccione un curso">
+      <option [ngValue]="null" disabled>Seleccione</option>
+      <option *ngFor="let c of cursos" [ngValue]="c.id">{{ c.nombre }}</option>
+    </select>
+
+    <button (click)="inscribir()">Inscribir</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Alumno</th>
+        <th>Curso</th>
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of inscripciones">
+        <td>{{ i.id }}</td>
+        <td>{{ getAlumnoNombre(i.alumnoId) }}</td>
+        <td>{{ getCursoNombre(i.cursoId) }}</td>
+        <td>{{ i.usuario }}</td>
+        <td>{{ i.fecha | date:'short' }}</td>
+        <td><button (click)="desinscribir(i.id)">Desinscribir</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

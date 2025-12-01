@@ -3,6 +3,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout';
 import { Login } from './auth/pages/login/login';
 import { Register } from './auth/pages/register/register';
 import { AuthGuard } from './auth/services/auth.guard';
+import { RoleGuard } from './auth/services/role.guard';
 
 export const routes: Routes = [
   
@@ -22,10 +23,16 @@ export const routes: Routes = [
       },
       {
         path: 'cursos',
-        loadChildren: () =>
-          import('./features//cursos/cursos-module').then(
-            (m) => m.CursosModule
-          ),
+        loadChildren: () => import('./features/cursos/cursos-module').then((m) => m.CursosModule),
+      },
+      {
+        path: 'inscripciones',
+        loadChildren: () => import('./features/inscripciones/inscripciones-module').then((m) => m.InscripcionesModule)
+      },
+      {
+        path: 'usuarios',
+        loadChildren: () => import('./features/usuarios/usuarios-module').then((m) => m.UsuariosModule),
+        canActivate: [RoleGuard]
       },
       { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
     ],

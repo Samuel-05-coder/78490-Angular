@@ -9,6 +9,16 @@
     <span>Lista de Cursos</span>
   </a>
 
+  <a *ngIf="(facade.isLogged$ | async)" mat-list-item routerLink="/inscripciones" routerLinkActive="active">
+    <mat-icon>how_to_reg</mat-icon>
+    <span>Inscripciones</span>
+  </a>
+
+  <a *ngIf="(facade.isAdmin$ | async)" mat-list-item routerLink="/usuarios" routerLinkActive="active">
+    <mat-icon>people</mat-icon>
+    <span>Usuarios</span>
+  </a>
+
   <a mat-list-item routerLink="/configuracion" routerLinkActive="active">
     <mat-icon>settings</mat-icon>
     <span>Configuración</span>
@@ -16,9 +26,23 @@
   </mat-nav-list>
 
   <div class="navbar-footer">
-    <button mat-list-item (click)="logout()" class="logout-button">
-      <mat-icon>logout</mat-icon>
-      <span>Salir</span>
+    
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
+      <mat-icon>account_circle</mat-icon>
     </button>
+
+    <span class="username">{{ (facade.user$ | async)?.username || 'Invitado' }}</span>
+
+    <mat-menu #userMenu="matMenu">
+      <div mat-menu-item disabled>
+        <mat-icon>person</mat-icon>
+        <span>{{ (facade.user$ | async)?.username || 'Invitado' }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </mat-menu>
   </div>
 

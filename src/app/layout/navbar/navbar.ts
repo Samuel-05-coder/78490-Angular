@@ -9,7 +9,8 @@ import { AuthFacade } from '../../auth/auth.facade';
   styleUrls: ['./navbar.css']
 })
 export class NavbarComponent {
-  constructor(private facade: AuthFacade) {}
+  // expose facade so template can use async pipe
+  constructor(public facade: AuthFacade) {}
 
   logout(): void {
     this.facade.logout();

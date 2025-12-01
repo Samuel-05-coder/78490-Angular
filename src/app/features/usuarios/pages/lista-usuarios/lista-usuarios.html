@@ -1,0 +1,39 @@
+<div class="usuarios-container">
+  <h2>Usuarios</h2>
+
+  <div class="form">
+    <input placeholder="Usuario" [(ngModel)]="formUsername" />
+    <input placeholder="Contraseña" [(ngModel)]="formPassword" type="password" />
+    <select [(ngModel)]="formRole">
+      <option value="user">user</option>
+      <option value="admin">admin</option>
+    </select>
+    <button (click)="save()">{{ editing ? 'Guardar' : 'Crear' }}</button>
+    <button *ngIf="editing" (click)="cancelEdit()">Cancelar</button>
+    <div class="error" *ngIf="createError">{{ createError }}</div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.username }}</td>
+        <td>{{ u.role || 'user' }}</td>
+        <td>
+          <button (click)="startEdit(u)">Editar</button>
+          <button *ngIf="pendingDelete !== u.username" (click)="delete(u.username)">Eliminar</button>
+          <span *ngIf="pendingDelete === u.username">
+            Confirmar? <button (click)="confirmDelete(u.username)">Sí</button>
+            <button (click)="cancelDelete()">No</button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

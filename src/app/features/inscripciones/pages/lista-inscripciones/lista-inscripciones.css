@@ -1,0 +1,6 @@
+.inscripciones-container{padding:16px}
+.form{display:flex;gap:8px;align-items:center;margin-bottom:16px}
+form label{display:block}
+select{padding:4px}
+table{width:100%;border-collapse:collapse}
+th,td{border-bottom:1px solid #eee;padding:6px;text-align:left}
