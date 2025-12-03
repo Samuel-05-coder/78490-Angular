@@ -8,12 +8,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { ListaCursosComponent } from './pages/lista-cursos/lista-cursos';
+import { RoleGuard } from '../../auth/services/role.guard';
 import { AbmCursosComponent } from './pages/abm-cursos/abm-cursos';
 
 const routes: Routes = [
   { path: '', component: ListaCursosComponent },
-  { path: 'nuevo', component: AbmCursosComponent },
-  { path: 'editar/:id', component: AbmCursosComponent }
+  { path: 'nuevo', component: AbmCursosComponent, canActivate: [RoleGuard] },
+  { path: 'editar/:id', component: AbmCursosComponent, canActivate: [RoleGuard] }
 ];
 
 @NgModule({

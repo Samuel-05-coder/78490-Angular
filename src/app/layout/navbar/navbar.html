@@ -27,6 +27,11 @@
 
   <div class="navbar-footer">
     
+    <!-- show a direct quick-login icon when not logged-in -->
+    <button *ngIf="!(facade.isLogged$ | async)" mat-icon-button [routerLink]="['/login']" aria-label="Iniciar sesión">
+      <mat-icon>login</mat-icon>
+    </button>
+
     <button mat-icon-button [matMenuTriggerFor]="userMenu" aria-label="User menu">
       <mat-icon>account_circle</mat-icon>
     </button>
@@ -39,7 +44,20 @@
         <span>{{ (facade.user$ | async)?.username || 'Invitado' }}</span>
       </div>
       <mat-divider></mat-divider>
-      <button mat-menu-item (click)="logout()">
+      <!-- show a login entry when not logged-in -->
+      <button *ngIf="!(facade.isLogged$ | async)" mat-menu-item [routerLink]="['/login']">
+        <mat-icon>login</mat-icon>
+        <span>Iniciar sesión</span>
+      </button>
+
+      <!-- show role toggle only when there is a user -->
+      <button *ngIf="(facade.user$ | async)" mat-menu-item (click)="toggleRole()">
+        <mat-icon>swap_horiz</mat-icon>
+        <span>
+          {{ (facade.user$ | async)?.role === 'admin' ? 'Hacer Usuario' : 'Hacer Admin' }}
+        </span>
+      </button>
+      <button *ngIf="(facade.isLogged$ | async)" mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Cerrar sesión</span>
       </button>

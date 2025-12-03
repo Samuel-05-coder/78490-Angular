@@ -1,10 +1,10 @@
 <div class="usuarios-container">
   <h2>Usuarios</h2>
 
-  <div class="form">
+  <div *ngIf="(isAdmin$ | async)" class="form">
     <input placeholder="Usuario" [(ngModel)]="formUsername" />
     <input placeholder="Contraseña" [(ngModel)]="formPassword" type="password" />
-    <select [(ngModel)]="formRole">
+    <select [(ngModel)]="formRole" title="Seleccionar rol">
       <option value="user">user</option>
       <option value="admin">admin</option>
     </select>
@@ -26,8 +26,8 @@
         <td>{{ u.username }}</td>
         <td>{{ u.role || 'user' }}</td>
         <td>
-          <button (click)="startEdit(u)">Editar</button>
-          <button *ngIf="pendingDelete !== u.username" (click)="delete(u.username)">Eliminar</button>
+            <button *ngIf="(isAdmin$ | async)" (click)="startEdit(u)">Editar</button>
+            <button *ngIf="(isAdmin$ | async) && pendingDelete !== u.username" (click)="delete(u.username)">Eliminar</button>
           <span *ngIf="pendingDelete === u.username">
             Confirmar? <button (click)="confirmDelete(u.username)">Sí</button>
             <button (click)="cancelDelete()">No</button>

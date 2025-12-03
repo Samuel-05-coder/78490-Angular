@@ -5,6 +5,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { NavbarComponent } from './navbar';
 import { of } from 'rxjs';
@@ -15,20 +17,23 @@ describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
   let facadeSpy: jasmine.SpyObj<AuthFacade>;
   let routerSpy: jasmine.SpyObj<Router>;
+  let snackSpy: jasmine.SpyObj<MatSnackBar>;
 
   beforeEach(async () => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    facadeSpy = jasmine.createSpyObj('AuthFacade', ['logout']);
-    (facadeSpy as any).user$ = of({ username: 'testuser' });
+    facadeSpy = jasmine.createSpyObj('AuthFacade', ['logout', 'changeRole']);
+    (facadeSpy as any).user$ = of({ username: 'testuser', role: 'user' });
     (facadeSpy as any).isAdmin$ = of(true);
     (facadeSpy as any).isLogged$ = of(true);
 
+    snackSpy = jasmine.createSpyObj('MatSnackBar', ['open']);
+
     await TestBed.configureTestingModule({
       declarations: [NavbarComponent],
-      imports: [MatListModule, MatIconModule, MatMenuModule, MatDividerModule, BrowserAnimationsModule],
+      imports: [MatListModule, MatIconModule, MatMenuModule, MatDividerModule, BrowserAnimationsModule, RouterTestingModule],
       providers: [
         { provide: AuthFacade, useValue: facadeSpy },
-        { provide: Router, useValue: routerSpy }
+        { provide: MatSnackBar, useValue: snackSpy }
       ]
     })
     .compileComponents();
@@ -45,6 +50,28 @@ describe('NavbarComponent', () => {
   it('dispatches logout and navigates to /login on logout()', () => {
     component.logout();
     expect(facadeSpy.logout).toHaveBeenCalled();
+    expect(snackSpy.open).toHaveBeenCalledWith('Sesión cerrada', 'Cerrar', { duration: 2000 });
+  });
+
+  it('toggleRole calls facade.changeRole with expected role', async () => {
+    // current role is 'user' in the spy; toggling should switch to 'admin'
+    await component.toggleRole();
+    expect(facadeSpy.changeRole).toHaveBeenCalledWith('admin');
+    expect(snackSpy.open).toHaveBeenCalledWith('Rol cambiado a admin', 'Cerrar', { duration: 2000 });
+  });
+
+  it('shows Login menu entry when not logged', async () => {
+    // simulate logged out state
+    (facadeSpy as any).isLogged$ = of(false);
+    (facadeSpy as any).user$ = of(null);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const el: HTMLElement = fixture.nativeElement;
+    const html = fixture.nativeElement.innerHTML;
+    // should contain the quick-login icon button
+    expect(html).toContain('login');
+    // logout should be hidden when not logged
+    expect(html).not.toContain('Cerrar sesión');
   });
 
   it('shows username in the footer', () => {

@@ -1,2 +1,15 @@
 
+<div class="global-auth-bar">
+	<!-- Botón login si no está logueado -->
+	<button *ngIf="!(facade.isLogged$ | async)" mat-raised-button color="primary" [routerLink]="['/login']">
+		<mat-icon>login</mat-icon> Iniciar sesión
+	</button>
+	<!-- Botón logout si está logueado -->
+	<button *ngIf="facade.isLogged$ | async" mat-raised-button color="warn" (click)="facade.logout()">
+		<mat-icon>logout</mat-icon> Cerrar sesión
+	</button>
+	<!-- Mostrar nombre de usuario -->
+	<span class="username">{{ (facade.user$ | async)?.username || 'Invitado' }}</span>
+</div>
+
 <router-outlet></router-outlet>

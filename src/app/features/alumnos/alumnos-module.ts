@@ -9,12 +9,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ListaAlumnosComponent } from './pages/lista-alumnos/lista-alumnos';
+import { RoleGuard } from '../../auth/services/role.guard';
 import { AbmAlumnosComponent } from './pages/lista-alumnos/abm-alumnos/abm-alumnos';
 
 const routes: Routes = [
   { path: '', component: ListaAlumnosComponent },
-  { path: 'nuevo', component: AbmAlumnosComponent },
-  { path: 'editar/:id', component: AbmAlumnosComponent }
+  { path: 'nuevo', component: AbmAlumnosComponent, canActivate: [RoleGuard] },
+  { path: 'editar/:id', component: AbmAlumnosComponent, canActivate: [RoleGuard] }
 ];
 
 @NgModule({

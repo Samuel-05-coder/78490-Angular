@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CursosService, Curso } from '../../../../core/services/cursos';
+import { Observable } from 'rxjs';
+import { AuthFacade } from '../../../../auth/auth.facade';
 
 @Component({
   selector: 'app-lista-cursos',
@@ -13,10 +15,14 @@ export class ListaCursosComponent {
   cursos: Curso[] = [];
   columnas: string[] = ['id', 'nombre', 'profesor', 'duracion', 'acciones'];
 
+  isAdmin$!: Observable<boolean>;
+
   constructor(
     private cursosService: CursosService,
-    private router: Router
+    private router: Router,
+    private facade: AuthFacade
   ) {
+    this.isAdmin$ = this.facade.isAdmin$;
     this.cargarCursos();
   }
 

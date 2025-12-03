@@ -3,6 +3,8 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ListaAlumnosComponent } from './lista-alumnos';
+import { AuthFacade } from '../../../../auth/auth.facade';
+import { of } from 'rxjs';
 
 describe('ListaAlumnosComponent', () => {
   let component: ListaAlumnosComponent;
@@ -11,7 +13,8 @@ describe('ListaAlumnosComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ListaAlumnosComponent],
-      imports: [MatTableModule, BrowserAnimationsModule]
+      imports: [MatTableModule, BrowserAnimationsModule],
+      providers: [{ provide: AuthFacade, useValue: { isAdmin$: of(false) } }]
     })
     .compileComponents();
 
@@ -24,3 +27,5 @@ describe('ListaAlumnosComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+

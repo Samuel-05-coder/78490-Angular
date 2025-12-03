@@ -50,6 +50,19 @@ export class AuthService {
     );
   }
 
+  /** Create a user without logging in (for admin UI). Returns true on success. */
+  createUser(username: string, password: string, role: UserRole = 'user'): boolean {
+    const users = this.getStoredUsers();
+    if (users.some((u) => u.username === username)) return false;
+    users.push({ username, password, role });
+    try {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   private getStoredUsers(): Array<{ username: string; password: string; role?: UserRole }> {
     try {
       const raw = localStorage.getItem(this.STORAGE_KEY);
@@ -70,46 +83,30 @@ export class AuthService {
     return this.getStoredUsers().map((u) => ({ username: u.username, role: u.role }));
   }
 
-  /** Create a new user (admin action). Returns created user object or null if exists */
-  createUser(username: string, password: string, role: UserRole = 'user'): { username: string; role?: UserRole } | null {
-    const users = this.getStoredUsers();
-    if (users.some((u) => u.username === username)) return null;
-    users.push({ username, password, role });
-    try {
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
-    } catch (e) {
-      // ignore
-    }
-    return { username, role };
-  }
-
-  /** Update existing user (admin). Returns updated user object or null if not found */
-  updateUser(username: string, changes: { username?: string; password?: string; role?: UserRole }): { username: string; role?: UserRole } | null {
+  /** Update an existing user (only exposed for admin UI in this demo). */
+  updateUser(username: string, updates: { password?: string; role?: UserRole; email?: string; nombre?: string; telefono?: string; direccion?: string }): boolean {
     const users = this.getStoredUsers();
     const idx = users.findIndex((u) => u.username === username);
-    if (idx === -1) return null;
-    const updated = { ...users[idx], ...changes };
-    users[idx] = updated;
+    if (idx === -1) return false;
+    users[idx] = { ...users[idx], ...updates };
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
-    } catch (e) {
-      // ignore
-    }
-    return { username: updated.username, role: updated.role };
+    } catch (e) {}
+    return true;
   }
 
-  /** Delete user by username. Returns true if removed */
+  /** Remove a user from storage. Returns true when removed. */
   deleteUser(username: string): boolean {
     const users = this.getStoredUsers();
     const next = users.filter((u) => u.username !== username);
     if (next.length === users.length) return false;
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(next));
-    } catch (e) {
-      // ignore
-    }
+    } catch (e) {}
     return true;
   }
+
+  // Duplicate admin-facing api removed. Keep the boolean create/update/delete above
 
   logout(): void {
     this._logged$.next(false);

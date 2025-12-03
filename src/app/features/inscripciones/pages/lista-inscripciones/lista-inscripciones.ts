@@ -20,6 +20,11 @@ export class ListaInscripcionesComponent implements OnInit {
   selectedAlumno: number | null = null;
   selectedCurso: number | null = null;
   currentUser: string | null = null;
+  
+  newNombre = '';
+  newApellido = '';
+  newEmail = '';
+  createMessage = '';
 
   constructor(
     private inscripcionesService: InscripcionesService,
@@ -54,6 +59,22 @@ export class ListaInscripcionesComponent implements OnInit {
     // types narrowed by the null-check above; cast to number for clarity
     this.inscripcionesService.inscribir(this.selectedAlumno as number, this.selectedCurso as number, this.currentUser);
     this.reload();
+  }
+
+  canCreateAlumno(): boolean {
+    return ((this.newNombre.trim().length > 0 || this.newApellido.trim().length > 0) && this.newEmail.trim().length > 0);
+  }
+
+  crearAlumno() {
+    if (!this.canCreateAlumno()) return;
+    this.alumnosService.agregarAlumno({ nombre: this.newNombre, apellido: this.newApellido, email: this.newEmail, activo: true });
+    this.newNombre = '';
+    this.newApellido = '';
+    this.newEmail = '';
+    this.createMessage = 'Alumno creado';
+    this.alumnos = this.alumnosService.obtenerAlumnos();
+    // clear message after short timeout
+    setTimeout(() => (this.createMessage = ''), 1800);
   }
 
   desinscribir(id: number) {

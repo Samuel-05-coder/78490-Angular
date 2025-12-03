@@ -39,6 +39,34 @@ describe('AuthService (register)', () => {
     expect(publicUsers.some((u) => u.username === 'user')).toBeTrue();
   });
 
+  it('createUser should add a user without logging in', () => {
+    const ok = service.createUser('newu', 'pw123', 'user');
+    expect(ok).toBeTrue();
+    const raw = localStorage.getItem(KEY) || '';
+    const users = JSON.parse(raw) as Array<any>;
+    expect(users.some((u) => u.username === 'newu')).toBeTrue();
+  });
+
+  it('updateUser should edit role and password', () => {
+    service.createUser('toedit', 'p1', 'user');
+    const updated = service.updateUser('toedit', { role: 'admin', password: 'p2' });
+    expect(updated).toBeTrue();
+    const raw = localStorage.getItem(KEY) || '';
+    const users = JSON.parse(raw) as Array<any>;
+    const u = users.find((x) => x.username === 'toedit');
+    expect(u).toBeTruthy();
+    expect(u.role).toBe('admin');
+  });
+
+  it('deleteUser should remove the user', () => {
+    service.createUser('todel', 'p', 'user');
+    const ok = service.deleteUser('todel');
+    expect(ok).toBeTrue();
+    const raw = localStorage.getItem(KEY) || '';
+    const users = JSON.parse(raw) as Array<any>;
+    expect(users.some((u) => u.username === 'todel')).toBeFalse();
+  });
+
   it('should create, update and delete a user via admin methods', () => {
     // ensure clean
     localStorage.removeItem(KEY);
@@ -46,17 +74,24 @@ describe('AuthService (register)', () => {
 
     // create admin and user defaults will exist by fallback
     const created = s.createUser('newu', 'pw', 'user');
-    expect(created).toBeTruthy();
-    expect(created?.username).toBe('newu');
+    expect(created).toBeTrue();
+    // check storage contains the user
+    let raw = localStorage.getItem(KEY) || '';
+    let users = JSON.parse(raw) as Array<any>;
+    expect(users.some((u) => u.username === 'newu')).toBeTrue();
 
-    // trying to create same user returns null
+    // trying to create same user returns false
     const dup = s.createUser('newu', 'pw', 'user');
-    expect(dup).toBeNull();
+    expect(dup).toBeFalse();
 
     // update user role
     const updated = s.updateUser('newu', { role: 'admin' });
-    expect(updated).toBeTruthy();
-    expect(updated?.role).toBe('admin');
+    expect(updated).toBeTrue();
+    raw = localStorage.getItem(KEY) || '';
+    users = JSON.parse(raw) as Array<any>;
+    const u = users.find((x) => x.username === 'newu');
+    expect(u).toBeTruthy();
+    expect(u?.role).toBe('admin');
 
     // delete user
     const deleted = s.deleteUser('newu');

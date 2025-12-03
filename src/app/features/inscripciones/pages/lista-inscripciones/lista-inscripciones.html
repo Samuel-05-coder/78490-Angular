@@ -2,6 +2,14 @@
   <h2>Inscripciones</h2>
 
   <div class="form">
+    <div class="new-alumno">
+      <h3>Crear nuevo alumno</h3>
+      <input placeholder="Nombre" [(ngModel)]="newNombre" name="newNombre" />
+      <input placeholder="Apellido" [(ngModel)]="newApellido" name="newApellido" />
+      <input placeholder="Email" [(ngModel)]="newEmail" name="newEmail" />
+      <button (click)="crearAlumno()" [disabled]="!canCreateAlumno()">Crear Alumno</button>
+      <div *ngIf="createMessage" class="hint">{{ createMessage }}</div>
+    </div>
     <label>Alumno</label>
     <select name="alumno" [(ngModel)]="selectedAlumno" title="Seleccione un alumno">
       <option [ngValue]="null" disabled>Seleccione</option>

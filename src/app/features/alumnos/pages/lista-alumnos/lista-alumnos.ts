@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthFacade } from '../../../../auth/auth.facade';
 import { AlumnosService, Alumno } from '../../../../core/services/alumnos';
 
 @Component({
@@ -11,11 +13,11 @@ import { AlumnosService, Alumno } from '../../../../core/services/alumnos';
 export class ListaAlumnosComponent implements OnInit {
   alumnos: Alumno[] = [];
   columnas = ['id', 'nombre', 'apellido', 'email', 'activo', 'acciones'];
+  isAdmin$: Observable<boolean>;
 
-  constructor(
-    private alumnosService: AlumnosService,
-    private router: Router
-  ) {}
+  constructor(private alumnosService: AlumnosService, private router: Router, private facade: AuthFacade) {
+    this.isAdmin$ = this.facade.isAdmin$;
+  }
 
   ngOnInit(): void {
     this.cargarAlumnos();

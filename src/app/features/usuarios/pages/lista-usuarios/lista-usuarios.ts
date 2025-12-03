@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../../auth/services/auth.service';
+import { AuthFacade } from '../../../../auth/auth.facade';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -22,7 +24,11 @@ export class ListaUsuariosComponent implements OnInit {
   pendingDelete: string | null = null;
   createError = '';
 
-  constructor(private auth: AuthService) {}
+  isAdmin$!: Observable<boolean>;
+
+  constructor(private auth: AuthService, private facade: AuthFacade) {
+    this.isAdmin$ = this.facade.isAdmin$;
+  }
 
   ngOnInit(): void {
     this.reload();
@@ -48,8 +54,13 @@ export class ListaUsuariosComponent implements OnInit {
     if (!this.formUsername || (!this.editing && !this.formPassword)) return;
 
     if (this.editing) {
+      // disallow renaming usernames in this demo; only allow updating password/role
+      if (this.formUsername !== this.editing) {
+        this.createError = 'No se permite renombrar usuarios. Crea uno nuevo si quieres cambiar el nombre.';
+        return;
+      }
       // update
-      const updated = this.auth.updateUser(this.editing, { username: this.formUsername, password: this.formPassword || undefined, role: this.formRole });
+      const updated = this.auth.updateUser(this.editing, { password: this.formPassword || undefined, role: this.formRole });
       if (updated) {
         this.reload();
         this.cancelEdit();

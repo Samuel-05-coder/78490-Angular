@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import * as AuthActions from './store/auth.actions';
 import { selectUser, selectIsLogged, selectAuthLoading, selectAuthError, selectIsAdmin } from './store/auth.selectors';
 import { User } from './store/auth.models';
@@ -31,5 +31,12 @@ export class AuthFacade {
 
   logout(): void {
     this.store.dispatch(AuthActions.logout());
+  }
+
+  /** Change the current user's role (admin/user). Uses the store user to obtain username. */
+  async changeRole(role: 'admin' | 'user'): Promise<void> {
+    const u = await firstValueFrom(this.user$);
+    if (!u) return;
+    this.store.dispatch(AuthActions.changeRole({ username: u.username, role }));
   }
 }

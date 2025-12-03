@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthFacade } from './auth/auth.facade';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [App, RouterTestingModule],
+      providers: [{ provide: AuthFacade, useValue: { isLogged$: of(false) } }]
     }).compileComponents();
   });
 

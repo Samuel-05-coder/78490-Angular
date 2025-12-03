@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 export class AuthEffects {
   login$;
   register$;
+  changeRole$;
+  logoutSideEffect$;
   navigateOnSuccess$;
   navigateOnLogout$;
 
@@ -55,5 +57,31 @@ export class AuthEffects {
         ),
       { dispatch: false }
     );
+
+    // when logout action is dispatched, update the AuthService state too
+    this.logoutSideEffect$ = createEffect(
+      () =>
+        this.actions$.pipe(
+          ofType(AuthActions.logout),
+          tap(() => this.auth.logout())
+        ),
+      { dispatch: false }
+    );
+
+      this.changeRole$ = createEffect(() =>
+        this.actions$.pipe(
+          ofType(AuthActions.changeRole),
+          mergeMap(({ username, role }) => {
+            try {
+              const ok = this.auth.updateUser(username, { role });
+              return ok
+                ? of(AuthActions.changeRoleSuccess({ user: { username, role } }))
+                : of(AuthActions.changeRoleFailure({ error: 'Usuario no encontrado' }));
+            } catch (err) {
+              return of(AuthActions.changeRoleFailure({ error: (err as any)?.message || 'Error' }));
+            }
+          })
+        )
+      );
   }
 }
