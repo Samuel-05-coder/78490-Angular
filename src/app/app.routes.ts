@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout';
 import { Login } from './auth/pages/login/login';
 import { Register } from './auth/pages/register/register';
+import { PerfilUsuarioComponent } from './auth/pages/perfil-usuario/perfil-usuario';
+import { ConfiguracionComponent } from './shared/pages/configuracion/configuracion';
 import { AuthGuard } from './auth/services/auth.guard';
 import { RoleGuard } from './auth/services/role.guard';
 
@@ -9,6 +11,7 @@ export const routes: Routes = [
   
   { path: 'login', component: Login },
   { path: 'register', component: Register },
+  { path: 'perfil', component: PerfilUsuarioComponent, canActivate: [AuthGuard] },
 
   {
     path: '',
@@ -33,6 +36,11 @@ export const routes: Routes = [
         path: 'usuarios',
         loadChildren: () => import('./features/usuarios/usuarios-module').then((m) => m.UsuariosModule),
         canActivate: [RoleGuard]
+      },
+      {
+        path: 'configuracion',
+        component: ConfiguracionComponent,
+        canActivate: [AuthGuard]
       },
       { path: '', redirectTo: 'alumnos', pathMatch: 'full' },
     ],

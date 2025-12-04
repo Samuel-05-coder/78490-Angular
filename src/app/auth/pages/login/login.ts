@@ -28,4 +28,11 @@ export class Login {
     this.error = '';
     this.facade.login(this.username, this.password);
   }
+
+  quickLogin(username: string, password: string): void {
+    this.username = username;
+    this.password = password;
+    this.error = '';
+    this.facade.login(username, password);
+  }
 }

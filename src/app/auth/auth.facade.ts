@@ -39,4 +39,10 @@ export class AuthFacade {
     if (!u) return;
     this.store.dispatch(AuthActions.changeRole({ username: u.username, role }));
   }
+
+  /** Refresh the current user from storage. */
+  refreshUser(): void {
+    // Dispatch a refresh action (optional for now; in real app this might fetch from backend)
+    // For now, just reload from localStorage via the meta-reducer
+  }
 }

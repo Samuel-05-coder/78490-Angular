@@ -57,6 +57,13 @@
           {{ (facade.user$ | async)?.role === 'admin' ? 'Hacer Usuario' : 'Hacer Admin' }}
         </span>
       </button>
+
+      <!-- show perfil link only when logged in -->
+      <button *ngIf="(facade.isLogged$ | async)" mat-menu-item [routerLink]="['/perfil']">
+        <mat-icon>person</mat-icon>
+        <span>Mi Perfil</span>
+      </button>
+
       <button *ngIf="(facade.isLogged$ | async)" mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Cerrar sesión</span>

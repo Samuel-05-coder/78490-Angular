@@ -1,0 +1,62 @@
+<div class="perfil-container">
+  <h2>Mi Perfil</h2>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="user-card" *ngIf="user">
+    <div class="user-header">
+      <h3>{{ user.username }}</h3>
+      <span class="role-badge" [class.admin]="user.role === 'admin'" [class.user]="user.role === 'user'">
+        {{ user.role === 'admin' ? 'Administrador' : 'Usuario' }}
+      </span>
+    </div>
+
+    <div *ngIf="!editing" class="user-info">
+      <div class="info-row">
+        <label>Nombre:</label>
+        <span>{{ user.nombre || '(sin especificar)' }}</span>
+      </div>
+      <div class="info-row">
+        <label>Email:</label>
+        <span>{{ user.email || '(sin especificar)' }}</span>
+      </div>
+      <div class="info-row">
+        <label>Teléfono:</label>
+        <span>{{ user.telefono || '(sin especificar)' }}</span>
+      </div>
+      <div class="info-row">
+        <label>Dirección:</label>
+        <span>{{ user.direccion || '(sin especificar)' }}</span>
+      </div>
+      <button (click)="toggleEdit()" class="edit-btn">Editar Perfil</button>
+    </div>
+
+    <div *ngIf="editing" class="user-form">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input id="nombre" type="text" [(ngModel)]="formNombre" name="nombre" placeholder="Tu nombre completo" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" [(ngModel)]="formEmail" name="email" placeholder="tu@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input id="telefono" type="tel" [(ngModel)]="formTelefono" name="telefono" placeholder="+1 234 567 8900" />
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección:</label>
+        <textarea id="direccion" [(ngModel)]="formDireccion" name="direccion" placeholder="Tu dirección" rows="3"></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button (click)="save()" [disabled]="loading" class="save-btn">{{ loading ? 'Guardando...' : 'Guardar' }}</button>
+        <button (click)="cancel()" [disabled]="loading" class="cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!user" class="no-user">
+    <p>No hay usuario autenticado. Por favor inicia sesión.</p>
+  </div>
+</div>

@@ -3,14 +3,28 @@
 	<form (ngSubmit)="onSubmit()">
 		<div>
 			<label for="username">Usuario</label>
-			<input id="username" name="username" [(ngModel)]="username" />
+			<input id="username" name="username" [(ngModel)]="username" placeholder="Ingresa tu usuario" />
 		</div>
 		<div>
 			<label for="password">Contraseña</label>
-			<input id="password" name="password" type="password" [(ngModel)]="password" />
+			<input id="password" name="password" type="password" [(ngModel)]="password" placeholder="Ingresa tu contraseña" />
 		</div>
-		<button type="submit">Entrar</button>
+		<button type="submit" [disabled]="loading">{{ loading ? 'Ingresando...' : 'Entrar' }}</button>
 	</form>
+
+	<!-- Demo accounts quick login -->
+	<div class="demo-section">
+		<p class="demo-title">📋 Cuentas de Demo:</p>
+		<div class="demo-buttons">
+			<button (click)="quickLogin('admin', 'admin')" class="demo-btn admin-btn">
+				<strong>Admin:</strong> admin / admin
+			</button>
+			<button (click)="quickLogin('user', 'user')" class="demo-btn user-btn">
+				<strong>User:</strong> user / user
+			</button>
+		</div>
+	</div>
+
 	<p class="hint">¿No tienes cuenta? <a routerLink="/register">Crear cuenta</a></p>
 	<div *ngIf="error" class="error">{{ error }}</div>
 </div>

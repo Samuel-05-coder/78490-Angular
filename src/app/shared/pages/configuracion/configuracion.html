@@ -1,0 +1,56 @@
+<div class="configuracion-container">
+  <h2>⚙️ Configuración</h2>
+
+  <div class="config-card" *ngIf="user">
+    <div class="config-section">
+      <h3>Rol de Usuario</h3>
+      <p class="description">Cambiar entre rol de usuario y administrador para acceder a diferentes funciones.</p>
+
+      <div class="role-display">
+        <div class="current-role">
+          <span class="role-label">Rol Actual:</span>
+          <span [class]="'role-badge ' + getRoleBadgeClass()">{{ getRoleLabel() }}</span>
+        </div>
+      </div>
+
+      <div class="role-actions">
+        <div class="role-option">
+          <div class="role-info">
+            <h4>👤 Usuario</h4>
+            <p>Acceso básico a lista de alumnos, cursos e inscripciones.</p>
+          </div>
+          <button
+            (click)="changeRole('user')"
+            [disabled]="user.role === 'user' || loading"
+            class="btn btn-user"
+          >
+            {{ user.role === 'user' ? '✓ Usuario Actual' : 'Cambiar a Usuario' }}
+          </button>
+        </div>
+
+        <div class="role-option">
+          <div class="role-info">
+            <h4>🔐 Administrador</h4>
+            <p>Acceso completo a gestión de usuarios, alumnos y cursos (ABM).</p>
+          </div>
+          <button
+            (click)="changeRole('admin')"
+            [disabled]="user.role === 'admin' || loading"
+            class="btn btn-admin"
+          >
+            {{ user.role === 'admin' ? '✓ Admin Actual' : 'Cambiar a Administrador' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="demo-info">
+        <h4>💡 Nota</h4>
+        <p>Al cambiar de rol, algunos menús y funciones se mostrarán o ocultarán automáticamente según tus permisos.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-user" *ngIf="!user">
+    <p>Por favor inicia sesión para acceder a esta sección.</p>
+  </div>
+</div>
